@@ -66,6 +66,12 @@ sudo add-apt-repository ppa:obsproject/obs-studio
 sudo apt update
 sudo apt install -y obs-studio
 
+# Install Handbrake from external repo
+sudo add-apt-repository ppa:stebbins/handbrake-releases
+
+sudo apt update
+sudo apt -y install handbrake-gtk handbrake-cli
+
 # Docker setup - https://docs.docker.com/install/linux/docker-ce/ubuntu/
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository \
