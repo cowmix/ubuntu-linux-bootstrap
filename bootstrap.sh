@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [[ $(id -u) -ne 0 ]]; 
-  then echo "Ubuntu dev bootstrapper, APT-GETs all the things -- run as root...";
-  exit 1; 
-fi
-
 # https://www.google.com/linuxrepositories/
 # https://www.microsoft.com/net/core#linuxubuntu
 # https://code.visualstudio.com/docs/setup/linux
@@ -14,20 +9,19 @@ fi
 
 echo "Update and upgrade all the things..."
 
-apt-get update -y
-#apt-get upgrade -y
+sudo apt-get update -y
 
 echo "Some essentials..."
-apt-get install -y curl wget git xclip vim \
+sudo apt-get install -y curl wget git xclip vim \
   apt-transport-https ca-certificates gnupg-agent build-essential software-properties-common
 
 # Chrome setup
 wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+sudo echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-dpkg --install google-chrome-stable_current_amd64.deb
+sudo dpkg --install google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb
-apt --fix-broken install
+sudo apt --fix-broken install
 
 # Brave setup
 sudo apt install apt-transport-https curl
@@ -38,58 +32,58 @@ sudo apt install brave-browser
 
 # Docker setup - https://docs.docker.com/install/linux/docker-ce/ubuntu/
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-add-apt-repository \
+sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-apt-get update -y
-apt-get install -y docker-ce docker-ce-cli containerd.io
+sudo apt-get update -y
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
 # Docker Compose - https://docs.docker.com/compose/install/#install-compose-on-linux-systems
-curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
 # ASP.net setup - https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu#2004-
 wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-dpkg -i packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 
-apt-get update -y
-apt-get install -y apt-transport-https
-apt-get update -y
-apt-get install -y dotnet-sdk-3.1
+sudo apt-get update -y
+sudo apt-get install -y apt-transport-https
+sudo apt-get update -y
+sudo apt-get install -y dotnet-sdk-3.1
 
 # VS Code setup - https://code.visualstudio.com/docs/setup/linux
 sudo snap install --classic code
 
 # Node setup - https://github.com/nodesource/distributions/blob/master/README.md
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-apt-get install -y nodejs
+sudo apt-get install -y nodejs
 
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-apt-get install -y nodejs
+sudo curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
 # build tools
-apt-get install -y gcc g++ make
+sudo apt-get install -y gcc g++ make
 
 # Yarn setup - https://yarnpkg.com/lang/en/docs/install/#debian-stable
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
-apt-get update -y
-apt install yarn -y
+sudo apt-get update -y
+sudo apt install yarn -y
 
 # Python 3 (ignoring version 2)
-apt install -y python3 python3-pip
+sudo apt install -y python3 python3-pip
 echo 'alias python=python3
 ' >> ~/.bash_aliases
 
-apt install -y build-essential libssl-dev libffi-dev python-dev
+sudo apt install -y build-essential libssl-dev libffi-dev python-dev
 
 # Go
-VERSION=1.15
+VERSION=1.17
 OS=linux
 ARCH=amd64
 wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz -O /tmp/go$VERSION.$OS-$ARCH.tar.gz
-tar -C /usr/local -xzf /tmp/go$VERSION.$OS-$ARCH.tar.gz
+sudo tar -C /usr/local -xzf /tmp/go$VERSION.$OS-$ARCH.tar.gz
 
 # Using "~" in sudo context will get "/root" so wild guess the profile path:
 USERS_PROFILE_FILENAME=/home/${SUDO_USER}/.profile
@@ -103,9 +97,9 @@ export PATH=$PATH:/usr/local/go/bin
 fi
 
 # adds the cuurent user who is sudo'ing to a docker group:
-groupadd docker
-usermod -aG docker $SUDO_USER
-service docker restart
+sudo groupadd docker
+sudo usermod -aG docker $SUDO_USER
+sudo service docker restart
 # note that typically you still need a logout/login for docker to work...
 
 sudo apt autoremove -y
