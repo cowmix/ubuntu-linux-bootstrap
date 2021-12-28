@@ -12,7 +12,7 @@ echo "Update and upgrade all the things..."
 sudo apt-get update -y
 
 echo "Some essentials..."
-sudo apt-get install -y curl wget git xclip vim \
+sudo apt-get install -y curl wget git xclip vim zsh \
   apt-transport-https ca-certificates gnupg-agent build-essential software-properties-common
 
 # Chrome setup
@@ -29,6 +29,17 @@ sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://b
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 sudo apt update
 sudo apt install brave-browser
+
+# Chromium  setup
+sudo apt-get install chromium-browser
+
+# Seamonkey apt install (3rd party repo)
+cat <<EOF | sudo tee /etc/apt/sources.list.d/mozilla.list
+deb http://downloads.sourceforge.net/project/ubuntuzilla/mozilla/apt all main
+EOF
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 2667CA5C
+sudo apt-get update
+sudo apt-get install seamonkey-mozilla-build
 
 # Docker setup - https://docs.docker.com/install/linux/docker-ce/ubuntu/
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -86,7 +97,7 @@ wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz -O /tmp/go$VERSION.$OS
 sudo tar -C /usr/local -xzf /tmp/go$VERSION.$OS-$ARCH.tar.gz
 
 # Using "~" in sudo context will get "/root" so wild guess the profile path:
-USERS_PROFILE_FILENAME=/home/${SUDO_USER}/.profile
+USERS_PROFILE_FILENAME=~/.profile
 if grep -Fq "/usr/local/go/bin" $USERS_PROFILE_FILENAME
 then
     echo "GO path found in $USERS_PROFILE_FILENAME"
@@ -103,6 +114,7 @@ sudo service docker restart
 # note that typically you still need a logout/login for docker to work...
 
 sudo apt autoremove -y
+
 
 cat << EOF
 
@@ -134,3 +146,6 @@ xclip -sel clip < ~/.ssh/id_rsa.pub
 source ~/.profile
 
 EOF
+
+# Install ohmyzsh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

@@ -2,26 +2,27 @@
 
 Script for getting a ubuntu box into dev mode from new install to useful in ~10 minutes...
 
-Last run against `Ubuntu 20.04`.
+Last run against `Ubuntu 21.10`.
 
 > Do note that it is best-effort and by no means definitive, these things are hard to test! I just update things when I am doing a new build etc and some issues I spot fix, others are missed...
 
 ## Simple Bootstrap
 
-A recent build of Ubuntu (at first 16, then 18, and now 20) gave rise to the need for a few tools etc.
+A recent build of Ubuntu (at first 16, then 18, and now 21) gave rise to the need for a few tools etc.
 
-By no means exhaustive, run as root, have a coffee:
+By no means exhaustive, run as yourself (you will immediately be prompted for your password via sudo), then have a coffee:
 
-    sudo ./bootstrap.sh
+    ./bootstrap.sh
 
 ## Main Packages
 
-* Chrome
+* Chrome and other browsers
 * Docker, Docker Compose
 * Visual Studio Code
 * .NET Core
 * Go
 * Node/npm/yarn
+* zsh (and ohmyzsh)
 
 Reminders about git setup etc
 
