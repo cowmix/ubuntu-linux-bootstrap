@@ -21,17 +21,17 @@ sudo echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' 
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg --install google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb
-sudo apt --fix-broken install
+sudo apt -y --fix-broken install
 
 # Brave setup
 sudo apt install apt-transport-https curl
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 sudo apt update
-sudo apt install brave-browser
+sudo apt -y install brave-browser
 
 # Chromium  setup
-sudo apt-get install chromium-browser
+sudo apt-get -y install chromium-browser
 
 # Seamonkey apt install (3rd party repo)
 cat <<EOF | sudo tee /etc/apt/sources.list.d/mozilla.list
@@ -54,8 +54,8 @@ sudo apt-get -y install audacity vlc ffmpeg gimp
 # Install Blender
 export BLENDER_MAJOR="3.0"
 export BLENDER_VERSION="3.0.0"
-export BLENDER_TAR_URL="https://download.blender.org/release/Blender${BLENDER_MAJOR}/blender-${BLENDER_VERSION}-linux64.tar.xz"
-sudo mkdir /usr/local/blender && \
+export BLENDER_TAR_URL="https://download.blender.org/release/Blender${BLENDER_MAJOR}/blender-${BLENDER_VERSION}-linux-x64.tar.xz"
+sudo mkdir -p /usr/local/blender && \
 	wget --quiet ${BLENDER_TAR_URL} -O blender.tar.xz && \
 	tar -xvf blender.tar.xz -C /usr/local/blender --strip-components=1 && \
 	rm blender.tar.xz 
