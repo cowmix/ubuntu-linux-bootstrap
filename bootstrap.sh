@@ -41,12 +41,30 @@ sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 2667CA5C
 sudo apt-get update
 sudo apt-get install seamonkey-mozilla-build
 
-#DBeaver setup
+# DBeaver setup
 sudo apt -y install default-jdk
 wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | sudo apt-key add -
 echo "deb https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list
 sudo apt update
 sudo apt install dbeaver-ce
+
+# Random AV stuff
+sudo apt-get -y install audacity vlc ffmpeg gimp
+
+# Install Blender
+export BLENDER_MAJOR="3.0"
+export BLENDER_VERSION="3.0.0"
+export BLENDER_TAR_URL="https://download.blender.org/release/Blender${BLENDER_MAJOR}/blender-${BLENDER_VERSION}-linux64.tar.xz"
+sudo mkdir /usr/local/blender && \
+	wget --quiet ${BLENDER_TAR_URL} -O blender.tar.xz && \
+	tar -xvf blender.tar.xz -C /usr/local/blender --strip-components=1 && \
+	rm blender.tar.xz 
+
+# Install OBS Studio
+sudo apt -y install v4l2loopback-dkms
+sudo add-apt-repository ppa:obsproject/obs-studio
+sudo apt update
+sudo apt install -y obs-studio
 
 # Docker setup - https://docs.docker.com/install/linux/docker-ce/ubuntu/
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -70,7 +88,9 @@ sudo apt-get update -y
 sudo apt-get install -y dotnet-sdk-3.1
 
 # VS Code setup - https://code.visualstudio.com/docs/setup/linux
-sudo snap install --classic code
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+sudo apt-get -y install code
 
 # Node setup - https://github.com/nodesource/distributions/blob/master/README.md
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -

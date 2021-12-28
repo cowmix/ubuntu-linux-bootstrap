@@ -17,6 +17,7 @@ By no means exhaustive, run as yourself (you will immediately be prompted for yo
 ## Main Packages
 
 * Chrome and other browsers
+* Various A/V tools
 * Docker, Docker Compose
 * Visual Studio Code
 * .NET Core
